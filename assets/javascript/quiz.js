@@ -19,6 +19,7 @@ const desc = document.querySelector("p");
 const startButton = document.getElementById("start");
 const timer = document.getElementById("time");
 const question = document.createElement("h1");
+const highScores = document.getElementById("highscores");
 
 
 
@@ -147,7 +148,7 @@ function showAnswer(answer){
             answerD.remove();
         } 
      }
-    , 500);
+    , 300);
    
 }
 //generates next question
@@ -172,6 +173,8 @@ function removeAll (){
         buttons[i].remove();
     }
     question.remove();
+    timer.remove();
+    highScores.remove();
 
 }
 startButton.addEventListener("click",startQuiz);
