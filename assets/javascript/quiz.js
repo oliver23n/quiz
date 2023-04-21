@@ -20,10 +20,12 @@ const timer = document.getElementById('timer');
 const body = document.body;
 const questionsDiv = document.querySelector('.questionsDiv');
 const end = document.querySelector('.end');
+const highScoresDiv = document.querySelector('.highScoresDiv');
 
 startButton.addEventListener('click', startQuiz);
 let time = 60;
-current = 0;
+let current = 0;
+let persons = [];
 const questions = [
     {
         q: "question 1?",
@@ -149,16 +151,59 @@ function endQuiz() {
     allDone.textContent = "all done!";
     end.appendChild(allDone);
 
+    const yourRes = document.createElement('p');
+    yourRes.textContent = "Your result is "+ time +'.';
+    end.appendChild(yourRes);
+
     const inputName = document.createElement('input');
     inputName.setAttribute('placeholder', 'Enter your name here');
+    inputName.setAttribute('class','entername');
     end.appendChild(inputName)
 
     const submitB = document.createElement('button');
     submitB.textContent = "SUBMIT";
-    submitB.addEventListener("submit", storeResult);
+    submitB.addEventListener("click", storeResult);
     end.appendChild(submitB);
 
 }
-function storeResult() {
 
+function storeResult() {
+        const enteredName = document.querySelector('.entername');
+        const person = {
+            name: enteredName.value.trim(),
+            score: time,
+
+        };
+        persons.push(person);
+        localStorage.setItem("scores", JSON.stringify(persons));
+        showHighScores();
+    }
+
+function showHighScores(){
+    // hideStartElements();
+    end.setAttribute('class','hidden');
+
+    const highscores = document.createElement('h2');
+    highscores.textContent = "HIGHSCORES";
+    highScoresDiv.appendChild(highscores);
+
+    const list = document.createElement('ul');
+    highScoresDiv.appendChild(list);
+
+    const stored = JSON.parse(localStorage.getItem("scores"));
+    if (stored !== null){
+        persons = stored;
+    }
+    for (let i = 0; i<persons.length; i++){
+        const listItem = document.createElement('li');
+        listItem.textContent = persons[i].name + " - "+persons[i].score;
+        list.append(listItem);
+    }
+
+    const clearButton = document.createElement('button');
+    clearButton.textContent = "CLEAR";
+    clearButton.addEventListener('click',function(){
+        console.log('should clear');
+    });
+    highScoresDiv.appendChild(clearButton);
 }
