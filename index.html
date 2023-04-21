@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
-    <link rel = "stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
 </head>
+
 <body>
-<header class="header">
-<h3 id="highscores">HIGHSCORES</h3>
-<h3 id="time">Time: 0</h3>
-</header>
-<main>
-    <h1 id="title" class="center">Whats the Capital?</h1>
-    <p class="desc" class="center">
-        This quiz is about capitals in different countries. You have 1 min to answer as many questions you can, or all of them if you're good. But here's the trick, if you answer wrong 10 seconds are taken of your time left for the other questions! GOOD LUCK!
-    </p>
-    <container id="container">
+    <header class="header">
+        <h3 id="highscores">HIGHSCORES</h3>
+        <h3 id="timer">Time: 0</h3>
+    </header>
+    <div class="startEnd">
+        <h1 id="title" class="center">Whats the Capital?</h1>
+        <p class="description" class="center">
+            This quiz is about capitals in different countries. You have 1 min to answer as many questions you can, or
+            all of them if you're good. But here's the trick, if you answer wrong 10 seconds are taken of your time left
+            for the other questions! GOOD LUCK!
+        </p>
         <button id="start" class="button">START</button>
-    </container>
-    
-</main>
-    
+    </div>
+    <div class="questionsDiv"></div>
+    <div class="end"></div>
+    <div class="highScoresDiv"></div>
+
     <script src="./assets/javascript/quiz.js"></script>
 </body>
+
 </html>

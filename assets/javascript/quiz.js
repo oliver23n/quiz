@@ -3,7 +3,7 @@
 // SO THAT I can gauge my progress compared to my peers
 // Acceptance Criteria
 // GIVEN I am taking a code quiz
-// WHEN I click the start button 
+// WHEN I click the start button
 // THEN a timer starts and I am presented with a question
 // WHEN I answer a question
 // THEN I am presented with another question
@@ -13,23 +13,21 @@
 // THEN the game is over
 // WHEN the game is over
 // THEN I can save my initials and my score
-const body = document.body;
-const quizTitle = document.getElementById('title');
-const desc = document.querySelector("p");
+
 const startButton = document.getElementById("start");
-const timer = document.getElementById("time");
-const question = document.createElement("h1");
-const highScores = document.getElementById("highscores");
+const startEnd = document.querySelector(".startEnd");
+const timer = document.getElementById('timer');
+const body = document.body;
+const questionsDiv = document.querySelector('.questionsDiv');
+const end = document.querySelector('.end');
 
-
-
-let answered ='';
-let countQ = 0;
+startButton.addEventListener('click', startQuiz);
 let time = 60;
-const questions =[
+current = 0;
+const questions = [
     {
-        q :"question 1?",
-        ans:['ans1','ans2','ans3'],
+        q: "question 1?",
+        ans: ['ans1', 'ans2', 'ans3'],
         tru: 'ans1'
     },
     {
@@ -38,100 +36,94 @@ const questions =[
         tru: 'answer2'
     },
     {
-        q : "question 3?",
+        q: "question 3?",
         ans: ['anssss1', 'anssss2', 'ansss3'],
         tru: 'ansss3'
     }
 ];
-let var12 = 'this is text';
 
 
-//when you click start the quiz starts
-function startQuiz (){
-    removeStart();
-    //show timer in display
+function startQuiz() {
+
+    //hide start elements
+    hideStartElements();
+    //start timer
     displayTimer(time);
-    //timer starts
-    const timerInterval = setInterval( function (){
+    const timerInterval = setInterval(function () {
         time--;
         displayTimer(time);
-        if (time <=0 ) {
-            // Stops execution of action at set interval
+        if (time == 0) {
             clearInterval(timerInterval);
             endQuiz();
-        }else if( countQ===questions.length){
+        } else if (current == questions.length) {
             clearInterval(timerInterval);
             endQuiz();
         }
-    },1000 );
-    //give first question with answers
-    generateQ(countQ);
-        
-}
-//removes quiz title, description and start button
-function removeStart(){
-    quizTitle.remove();
-    desc.remove();
-    startButton.remove();
+    }, 1000);
+
+    //create questin answer elements
+    createQelements();
+    //fill in the question and answers
+    fillQuestion(current);
 
 }
-//shows timer 
-function displayTimer(num){
-    timer.textContent = "Time: "+ num;
+//hides starter display
+function hideStartElements() {
+    startEnd.setAttribute('class', 'hidden');
 }
-//generates first question and answer
-function generateQ(counter){
+function displayTimer(num) {
+    timer.textContent = "Time: " + num;
+}
+function createQelements() {
+    const quesitonElement = document.createElement('h2');
+    quesitonElement.textContent = "THIS IS qQ";
+    quesitonElement.setAttribute("id", "questionElement");
+    questionsDiv.appendChild(quesitonElement);
 
-    let ques = questions[counter].q;
-    let answers = questions[counter].ans;
+    for (let i = 0; i < questions[0].ans.length; i++) {
+        const answerElement = document.createElement('button');
+        answerElement.setAttribute('class', 'answerElement');
+        answerElement.addEventListener('click', checkQuestion);
+        answerElement.textContent = "";
+        questionsDiv.appendChild(answerElement);
+    }
 
-    question.textContent = ques;
-    body.appendChild(question);
-    question.setAttribute("style","text-align: center; font-weight: bold;");
+}
+//fills in the questin and answer elements
+function fillQuestion(currentQuestion) {
+    let question = questions[currentQuestion].q;
+    let answers = questions[currentQuestion].ans;
+    const qelement = document.querySelector('#questionElement');
+    qelement.textContent = question;
+    const selectButtons = document.querySelectorAll('.answerElement');
+    for (let i = 0; i < answers.length; i++) {
+        selectButtons[i].textContent = answers[i];
+        selectButtons[i].value = answers[i];
 
-    for(let i = 0; i<answers.length; i++){
-    const answerEl = document.createElement("button");
-    answerEl.textContent = answers[i];
-    answerEl.setAttribute("class","button");
-    answerEl.setAttribute("name", answers[i]);
-    answerEl.addEventListener('click',checkQ);
-    body.appendChild(answerEl);
     }
 }
-
-//check if answer is right or wrong
-//displays answer
-//goes to the next one
-function checkQ(event){
-
-    button = event.target;
-    answered = button.name;
-
-    if( answered === questions[countQ].tru){
-        const isTrue = true;
-       showAnswer(isTrue)
-        countQ++;
-        if(countQ<questions.length){
-            generateNext(countQ);
-        }else{
-            console.log("no more q");
-        }
-
-    }else{
-        console.log("this is not true");
-        const isTrue = false;
+//after the answer is selecter checks if its correct or wrong
+function checkQuestion(e) {
+    const answered = e.target.value;
+    let isTrue = false;
+    if (answered == questions[current].tru) {
+        isTrue = true;
         showAnswer(isTrue);
-        time-=10;
-        countQ++; if (countQ < questions.length) {
-            generateNext(countQ);
-        } else {
-            console.log("no more q");
+        current++;
+        if (current < questions.length) {
+            fillQuestion(current);
         }
-        
-     }
+    } else {
+        showAnswer(isTrue);
+        current++;
+        time -= 10;
+        if (current < questions.length) {
+            fillQuestion(current);
+        }
+    }
 }
-//show answer for a sec
-function showAnswer(answer){
+//displays the answer (correct/wrong)
+function showAnswer(answer) {
     second = 1;
     const answerD = document.createElement('h4');
     if (answer) {
@@ -139,42 +131,34 @@ function showAnswer(answer){
     } else {
         answerD.textContent = "Wrong!"
     }
-    body.appendChild(answerD);
+    questionsDiv.appendChild(answerD);
     const timerInterval = setInterval(function () {
         second--;
         if (second == 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             answerD.remove();
-        } 
-     }
-    , 300);
-   
-}
-//generates next question
-function generateNext(counter){
-    question.textContent = questions[counter].q;
-    const selectButtons = document.querySelectorAll('button');
-    let answers = questions[counter].ans;
-    for (let i = 0; i < answers.length; i++) {
-       selectButtons[i].textContent = answers[i];
+        }
     }
+        , 500);
 
 }
-function endQuiz(){
-    console.log("were done here");
-    const result = time;
-    removeAll();
+function endQuiz() {
+    questionsDiv.setAttribute('class', 'hidden');
+    const allDone = document.createElement('h2');
+    allDone.textContent = "all done!";
+    end.appendChild(allDone);
+
+    const inputName = document.createElement('input');
+    inputName.setAttribute('placeholder', 'Enter your name here');
+    end.appendChild(inputName)
+
+    const submitB = document.createElement('button');
+    submitB.textContent = "SUBMIT";
+    submitB.addEventListener("submit", storeResult);
+    end.appendChild(submitB);
 
 }
-function removeAll (){
-    const buttons = document.querySelectorAll('button');
-    for(let i = 0; i<buttons.length; i++){
-        buttons[i].remove();
-    }
-    question.remove();
-    timer.remove();
-    highScores.remove();
+function storeResult() {
 
 }
-startButton.addEventListener("click",startQuiz);
