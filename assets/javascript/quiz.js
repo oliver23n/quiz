@@ -169,28 +169,25 @@ function storeResult() {
         persons.push(person);
         localStorage.setItem("scores", JSON.stringify(persons));
         showHighScores();
+        enteredName.value = '';
     }
     
 function showHighScores(){
     // hideStartElements();
     end.setAttribute('class','hidden');
     highScoresDiv.setAttribute('class','visible');
-    
 
-    const list = document.querySelector('ul');
-    const stored = JSON.parse(localStorage.getItem("scores"));
-    if (stored !== null){
-        persons = stored;
-    }
-    for (let i = 0; i<persons.length; i++){
-        const listItem = document.createElement('li');
-        listItem.textContent = persons[i].name + " - "+persons[i].score;
-        list.append(listItem);
-    }
     
+    
+    clearList();
+    renderList();
     const clearButton = document.getElementById('clearB');
     clearButton.addEventListener('click',function(){
         console.log('should clear');
+        localStorage.clear();
+        persons = [];
+        clearList();
+        renderList();
     });
 
     
@@ -212,7 +209,26 @@ function removeAll(){
     for(let i =0; i< selectButtons.length; i++){
         selectButtons[i].remove();
         }
-  
+}
+function clearList(){
+    const listitems = document.querySelectorAll('li');
+    for (let j = 0; j < listitems.length; j++) {
+        listitems[j].remove();
+        console.log('delete item' + listitems[j]);
+    }
+}
+function renderList(){
+    const stored = JSON.parse(localStorage.getItem("scores"));
+    if(stored == null){
+        return;
+    }
+    const list = document.querySelector('ul');
+    for (let i = 0; i < stored.length; i++) {
+        const listItem = document.createElement('li');
+        listItem.textContent = stored[i].name + " - " + persons[i].score;
+        list.append(listItem);
+    }
+
 }
 
 startButton.addEventListener('click', startQuiz);
