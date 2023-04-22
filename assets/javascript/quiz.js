@@ -21,6 +21,7 @@ const body = document.body;
 const questionsDiv = document.querySelector('.questionsDiv');
 const end = document.getElementById('end');
 const highScoresDiv = document.getElementById('highScoresDiv');
+const highscores = document.getElementById('highscores');
 
 let time = 60;
 let current = 0;
@@ -173,7 +174,7 @@ function storeResult() {
     }
     
 function showHighScores(){
-    // hideStartElements();
+    hideStartElements();
     end.setAttribute('class','hidden');
     highScoresDiv.setAttribute('class','visible');
 
@@ -181,6 +182,7 @@ function showHighScores(){
     
     clearList();
     renderList();
+
     const clearButton = document.getElementById('clearB');
     clearButton.addEventListener('click',function(){
         console.log('should clear');
@@ -204,18 +206,22 @@ function backToMain(){
     removeAll();
 }
 function removeAll(){
-    document.getElementById("questionElement").remove();
+    const question = document.getElementById("questionElement");
     const selectButtons = document.querySelectorAll('.answerElement');
+    if(question && selectButtons){
+    question.remove();
     for(let i =0; i< selectButtons.length; i++){
         selectButtons[i].remove();
         }
+    }
 }
 function clearList(){
     const listitems = document.querySelectorAll('li');
+    if(listitems){
     for (let j = 0; j < listitems.length; j++) {
         listitems[j].remove();
-        console.log('delete item' + listitems[j]);
     }
+}
 }
 function renderList(){
     const stored = JSON.parse(localStorage.getItem("scores"));
@@ -225,10 +231,10 @@ function renderList(){
     const list = document.querySelector('ul');
     for (let i = 0; i < stored.length; i++) {
         const listItem = document.createElement('li');
-        listItem.textContent = stored[i].name + " - " + persons[i].score;
+        listItem.textContent = stored[i].name + " - " + stored[i].score;
         list.append(listItem);
     }
 
 }
-
+highscores.addEventListener('click',showHighScores);
 startButton.addEventListener('click', startQuiz);
