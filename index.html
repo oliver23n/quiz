@@ -23,9 +23,24 @@
         </p>
         <button id="start" class="button">START</button>
     </div>
-    <div class="questionsDiv"></div>
-    <div class="end"></div>
-    <div class="highScoresDiv"></div>
+    <div class="questionsDiv">
+       
+    </div>
+    <div class="hidden" id="end" >
+        <h2 id ="allDone">ALL DONE</h2>
+        <p id ="yourScore"></p>  
+        <input id="entername" placeholder="Enter your name here"> 
+        <button type="submit" id="submitB">SUBMIT</button>
+    </div>
+    <div id="highScoresDiv" class="hidden">
+        <h2>HIGHSCORES</h2>
+        <ul>
+
+        </ul>
+        <button id="clearB">CLEAR</button>
+        <button id="backB">BACK</button>
+
+    </div>
 
     <script src="./assets/javascript/quiz.js"></script>
 </body>

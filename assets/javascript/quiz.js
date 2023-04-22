@@ -19,10 +19,9 @@ const startEnd = document.querySelector(".startEnd");
 const timer = document.getElementById('timer');
 const body = document.body;
 const questionsDiv = document.querySelector('.questionsDiv');
-const end = document.querySelector('.end');
-const highScoresDiv = document.querySelector('.highScoresDiv');
+const end = document.getElementById('end');
+const highScoresDiv = document.getElementById('highScoresDiv');
 
-startButton.addEventListener('click', startQuiz);
 let time = 60;
 let current = 0;
 let persons = [];
@@ -46,7 +45,7 @@ const questions = [
 
 
 function startQuiz() {
-
+    
     //hide start elements
     hideStartElements();
     //start timer
@@ -69,6 +68,7 @@ function startQuiz() {
     fillQuestion(current);
 
 }
+
 //hides starter display
 function hideStartElements() {
     startEnd.setAttribute('class', 'hidden');
@@ -77,11 +77,12 @@ function displayTimer(num) {
     timer.textContent = "Time: " + num;
 }
 function createQelements() {
+    questionsDiv.setAttribute('class','questionsDiv');
     const quesitonElement = document.createElement('h2');
-    quesitonElement.textContent = "THIS IS qQ";
+    
     quesitonElement.setAttribute("id", "questionElement");
     questionsDiv.appendChild(quesitonElement);
-
+    
     for (let i = 0; i < questions[0].ans.length; i++) {
         const answerElement = document.createElement('button');
         answerElement.setAttribute('class', 'answerElement');
@@ -89,7 +90,7 @@ function createQelements() {
         answerElement.textContent = "";
         questionsDiv.appendChild(answerElement);
     }
-
+    
 }
 //fills in the questin and answer elements
 function fillQuestion(currentQuestion) {
@@ -101,7 +102,7 @@ function fillQuestion(currentQuestion) {
     for (let i = 0; i < answers.length; i++) {
         selectButtons[i].textContent = answers[i];
         selectButtons[i].value = answers[i];
-
+        
     }
 }
 //after the answer is selecter checks if its correct or wrong
@@ -142,54 +143,41 @@ function showAnswer(answer) {
             answerD.remove();
         }
     }
-        , 500);
-
+    , 500);
+    
 }
 function endQuiz() {
+    end.setAttribute('class','visible');
     questionsDiv.setAttribute('class', 'hidden');
-    const allDone = document.createElement('h2');
-    allDone.textContent = "all done!";
-    end.appendChild(allDone);
-
-    const yourRes = document.createElement('p');
+   
+    
+    const yourRes = document.getElementById('yourScore');
     yourRes.textContent = "Your result is "+ time +'.';
-    end.appendChild(yourRes);
 
-    const inputName = document.createElement('input');
-    inputName.setAttribute('placeholder', 'Enter your name here');
-    inputName.setAttribute('class','entername');
-    end.appendChild(inputName)
-
-    const submitB = document.createElement('button');
-    submitB.textContent = "SUBMIT";
+    const submitB = document.getElementById('submitB');
     submitB.addEventListener("click", storeResult);
-    end.appendChild(submitB);
-
+ 
 }
 
 function storeResult() {
-        const enteredName = document.querySelector('.entername');
-        const person = {
-            name: enteredName.value.trim(),
+    const enteredName = document.querySelector('#entername');
+    const person = {
+        name: enteredName.value.trim(),
             score: time,
-
+            
         };
         persons.push(person);
         localStorage.setItem("scores", JSON.stringify(persons));
         showHighScores();
     }
-
+    
 function showHighScores(){
     // hideStartElements();
     end.setAttribute('class','hidden');
+    highScoresDiv.setAttribute('class','visible');
+    
 
-    const highscores = document.createElement('h2');
-    highscores.textContent = "HIGHSCORES";
-    highScoresDiv.appendChild(highscores);
-
-    const list = document.createElement('ul');
-    highScoresDiv.appendChild(list);
-
+    const list = document.querySelector('ul');
     const stored = JSON.parse(localStorage.getItem("scores"));
     if (stored !== null){
         persons = stored;
@@ -199,11 +187,32 @@ function showHighScores(){
         listItem.textContent = persons[i].name + " - "+persons[i].score;
         list.append(listItem);
     }
-
-    const clearButton = document.createElement('button');
-    clearButton.textContent = "CLEAR";
+    
+    const clearButton = document.getElementById('clearB');
     clearButton.addEventListener('click',function(){
         console.log('should clear');
     });
-    highScoresDiv.appendChild(clearButton);
+
+    
+    const backButton = document.getElementById('backB');
+    backButton.addEventListener('click',backToMain);
 }
+
+function backToMain(){
+    highScoresDiv.setAttribute('class','hidden');
+    startEnd.setAttribute('class','startEnd');
+    time = 60;
+    current = 0;
+    displayTimer(time);
+    removeAll();
+}
+function removeAll(){
+    document.getElementById("questionElement").remove();
+    const selectButtons = document.querySelectorAll('.answerElement');
+    for(let i =0; i< selectButtons.length; i++){
+        selectButtons[i].remove();
+        }
+  
+}
+
+startButton.addEventListener('click', startQuiz);
