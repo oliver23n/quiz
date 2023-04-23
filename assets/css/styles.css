@@ -1,6 +1,9 @@
-.header {
+.headerflex{
     display: flex;
     justify-content: space-between;
+}
+.headerblock{
+    display:block;
 }
 
 .startEnd {
@@ -10,29 +13,76 @@
     padding-top: 50px;
 }
 
-.startEnd p {
+p {
     padding: 10px 25%;
     text-align: center;
+    font-size: 20px;
+    
 }
 
 button {
     display: block;
-    text-align: center;
+    /* text-align: center; */
     padding: 10px;
-    margin: 5px auto;
+    margin: 20px auto;
     width: 200px;
+    border: 5px solid black;
+    box-shadow: 10px 10px 5px gray;
+    font-weight: bold;
+    font-size:20px
 }
 
 .hidden {
     display: none;
 }
 .questionsDiv{
-    display:block;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
+/*The questions  */
+h2{
+    font-size: 40px;
+    text-align: center;
+}
+#allDone {
+
+}
+/* the popup answer */
+h4{
+
+}
 .highScoresDiv{
     display:block;
+    text-align: center;
 }
 .visible{
     display:block;
+}
+.endQ{
+    display: block;
+   text-align: center;
+}
+#entername{
+    display: block;
+    text-align : center;
+    margin:0 auto;
+    width:400px;
+    height:30px;
+}
+#timer{
+    font-weight: bold;
+    border-radius: 20px;
+    border:2px solid Black;
+    padding:20px;
+    float:right;
+}
+#highscores{
+    font-weight: bold;
+        border-radius: 20px;
+        border: 2px solid Black;
+        padding: 20px;
+        
 }

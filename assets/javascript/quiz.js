@@ -13,7 +13,7 @@
 // THEN the game is over
 // WHEN the game is over
 // THEN I can save my initials and my score
-
+const header = document.querySelector('#header');
 const startButton = document.getElementById("start");
 const startEnd = document.querySelector(".startEnd");
 const timer = document.getElementById('timer');
@@ -85,6 +85,7 @@ function startQuiz() {
     //hide start elements
     hideStartElements();
     highscores.setAttribute('class', 'hidden');
+    header.setAttribute('class','headerblock')
     //start timer
     displayTimer(time);
     const timerInterval = setInterval(function () {
@@ -108,6 +109,7 @@ function startQuiz() {
 //hides starter display
 function hideStartElements() {
     startEnd.setAttribute('class', 'hidden');
+
 }
 //displays the timer 
 function displayTimer(num) {
@@ -187,7 +189,7 @@ function showAnswer(answer) {
 }
 //what happens when the quiz ends.
 function endQuiz() {
-    end.setAttribute('class', 'visible');
+    end.setAttribute('class', 'endQ');
     timer.setAttribute('class', 'hidden');
     questionsDiv.setAttribute('class', 'hidden');
 
@@ -241,6 +243,7 @@ function showHighScores() {
 }
 //back button to main display 
 function backToMain() {
+    header.setAttribute('class','headerflex');
     highScoresDiv.setAttribute('class', 'hidden');
     startEnd.setAttribute('class', 'startEnd');
     time = 60;
@@ -263,7 +266,7 @@ function removeAll() {
 }
 //clears the list of highscores
 function clearList() {
-    const listitems = document.querySelectorAll('li');
+    const listitems = document.querySelectorAll('ol');
     if (listitems) {
         for (let j = 0; j < listitems.length; j++) {
             listitems[j].remove();
@@ -283,7 +286,7 @@ function renderList() {
         return b.score - a.score;
     });
     for (let i = 0; i < stored.length; i++) {
-        const listItem = document.createElement('li');
+        const listItem = document.createElement('ol');
         listItem.textContent = stored[i].name + " - " + stored[i].score;
         list.append(listItem);
     }
