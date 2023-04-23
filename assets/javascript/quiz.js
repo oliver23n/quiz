@@ -28,33 +28,69 @@ let current = 0;
 let persons = [];
 const questions = [
     {
-        q: "question 1?",
-        ans: ['ans1', 'ans2', 'ans3'],
-        tru: 'ans1'
+        q: "What is the Capital of Italy?",
+        ans: ['Milano', 'Rome', 'Venice','Florence'],
+        tru: 'Rome'
     },
     {
-        q: "question 2?",
-        ans: ['answer1', 'answer2', 'answer3'],
-        tru: 'answer2'
+        q: "What is the Capital of France",
+        ans: ['Paris', 'Nice', 'Lyon','Bordeux'],
+        tru: 'Paris'
     },
     {
-        q: "question 3?",
-        ans: ['anssss1', 'anssss2', 'ansss3'],
-        tru: 'ansss3'
+        q: "What is the Capital of Spain",
+        ans: ['Barcelona', 'Valenica', 'Bilbao','Madrid'],
+        tru: 'Madrid'
+    },
+    {
+        q: "What is the Capital of the United States",
+        ans: ['New York', 'Los Angeles', 'Washington D.C.', 'Miami'],
+        tru: 'Washington D.C.'
+    }, 
+    {
+        q: "What is the Capital of Mexico",
+        ans: ['Mexico City', 'Oaxaca', 'Puebla', 'Tijuana'],
+        tru: 'Mexico City'
+    },
+    {
+        q: "What is the Capital of Norway",
+        ans: ['Oslo', 'Stockholm', 'Bergen', 'Copenhagen'],
+        tru: 'Oslo'
+    },
+    {
+        q: "What is the Capital of China",
+        ans: ['Tokkyo', 'Hong Kong', 'Beijing', 'Shangai'],
+        tru: 'Beijing'
+    },
+    {
+        q: "What is the Capital of Germany",
+        ans: ['Munich', 'Luxembourg', 'Berlin', 'Frankfurt'],
+        tru: 'Berlin'
+    },
+    {
+        q: "What is the Capital of Canada",
+        ans: ['Toronto', 'Montreal', 'Otawa', 'Edmonton'],
+        tru: 'Madrid'
+    },
+    {
+        q: "What is the Capital of Switzerland",
+        ans: ['Zurich', 'Bern', 'Geneva', 'Basel'],
+        tru: 'Bern'
     }
 ];
 
 
 function startQuiz() {
-    
+
     //hide start elements
     hideStartElements();
+    highscores.setAttribute('class', 'hidden');
     //start timer
     displayTimer(time);
     const timerInterval = setInterval(function () {
         time--;
         displayTimer(time);
-        if (time == 0) {
+        if (time <= 0) {
             clearInterval(timerInterval);
             endQuiz();
         } else if (current == questions.length) {
@@ -62,8 +98,7 @@ function startQuiz() {
             endQuiz();
         }
     }, 1000);
-
-    //create questin answer elements
+    //create question  and  answer elements
     createQelements();
     //fill in the question and answers
     fillQuestion(current);
@@ -74,16 +109,18 @@ function startQuiz() {
 function hideStartElements() {
     startEnd.setAttribute('class', 'hidden');
 }
+//displays the timer 
 function displayTimer(num) {
     timer.textContent = "Time: " + num;
 }
+//creates the question and the answer buttons
 function createQelements() {
-    questionsDiv.setAttribute('class','questionsDiv');
+    questionsDiv.setAttribute('class', 'questionsDiv');
     const quesitonElement = document.createElement('h2');
-    
+
     quesitonElement.setAttribute("id", "questionElement");
     questionsDiv.appendChild(quesitonElement);
-    
+
     for (let i = 0; i < questions[0].ans.length; i++) {
         const answerElement = document.createElement('button');
         answerElement.setAttribute('class', 'answerElement');
@@ -91,19 +128,21 @@ function createQelements() {
         answerElement.textContent = "";
         questionsDiv.appendChild(answerElement);
     }
-    
+
 }
-//fills in the questin and answer elements
+//fills in the guestion and answers
 function fillQuestion(currentQuestion) {
     let question = questions[currentQuestion].q;
     let answers = questions[currentQuestion].ans;
+
     const qelement = document.querySelector('#questionElement');
     qelement.textContent = question;
+
     const selectButtons = document.querySelectorAll('.answerElement');
     for (let i = 0; i < answers.length; i++) {
         selectButtons[i].textContent = answers[i];
         selectButtons[i].value = answers[i];
-        
+
     }
 }
 //after the answer is selecter checks if its correct or wrong
@@ -139,96 +178,110 @@ function showAnswer(answer) {
     const timerInterval = setInterval(function () {
         second--;
         if (second == 0) {
-            // Stops execution of action at set interval
             clearInterval(timerInterval);
             answerD.remove();
         }
     }
-    , 500);
-    
+        , 500);
+
 }
+//what happens when the quiz ends.
 function endQuiz() {
-    end.setAttribute('class','visible');
+    end.setAttribute('class', 'visible');
+    timer.setAttribute('class', 'hidden');
     questionsDiv.setAttribute('class', 'hidden');
-   
-    
+
     const yourRes = document.getElementById('yourScore');
-    yourRes.textContent = "Your result is "+ time +'.';
+    if(time<0){
+        time = 0;
+    }
+    yourRes.textContent = "Your result is " + time + '.';
 
     const submitB = document.getElementById('submitB');
     submitB.addEventListener("click", storeResult);
- 
-}
 
+}
+//storing the results in local storage
 function storeResult() {
     const enteredName = document.querySelector('#entername');
     const person = {
         name: enteredName.value.trim(),
-            score: time,
-            
-        };
-        persons.push(person);
-        localStorage.setItem("scores", JSON.stringify(persons));
-        showHighScores();
-        enteredName.value = '';
-    }
-    
-function showHighScores(){
-    hideStartElements();
-    end.setAttribute('class','hidden');
-    highScoresDiv.setAttribute('class','visible');
+        score: time,
 
-    
-    
+    };
+    persons.push(person);
+    localStorage.setItem("scores", JSON.stringify(persons));
+    showHighScores();
+    //resets the value of input element
+    enteredName.value = '';
+
+}
+// displays highscore list  
+function showHighScores() {
+    hideStartElements();
+    highscores.setAttribute('class', 'hidden');
+    end.setAttribute('class', 'hidden');
+    highScoresDiv.setAttribute('class', 'visible');
+    timer.setAttribute('class', 'hidden');
+
     clearList();
     renderList();
-
+    //clear button to clear the highscores and delete the local storage
     const clearButton = document.getElementById('clearB');
-    clearButton.addEventListener('click',function(){
-        console.log('should clear');
+    clearButton.addEventListener('click', function () {
         localStorage.clear();
         persons = [];
         clearList();
         renderList();
     });
 
-    
-    const backButton = document.getElementById('backB');
-    backButton.addEventListener('click',backToMain);
-}
 
-function backToMain(){
-    highScoresDiv.setAttribute('class','hidden');
-    startEnd.setAttribute('class','startEnd');
+    const backButton = document.getElementById('backB');
+    backButton.addEventListener('click', backToMain);
+}
+//back button to main display 
+function backToMain() {
+    highScoresDiv.setAttribute('class', 'hidden');
+    startEnd.setAttribute('class', 'startEnd');
     time = 60;
     current = 0;
     displayTimer(time);
     removeAll();
+    highscores.setAttribute('class', 'display:block');
+    timer.setAttribute('class', 'display:block');
 }
-function removeAll(){
+//removes the question element and the answer button elements
+function removeAll() {
     const question = document.getElementById("questionElement");
     const selectButtons = document.querySelectorAll('.answerElement');
-    if(question && selectButtons){
-    question.remove();
-    for(let i =0; i< selectButtons.length; i++){
-        selectButtons[i].remove();
+    if (question && selectButtons) {
+        question.remove();
+        for (let i = 0; i < selectButtons.length; i++) {
+            selectButtons[i].remove();
         }
     }
 }
-function clearList(){
+//clears the list of highscores
+function clearList() {
     const listitems = document.querySelectorAll('li');
-    if(listitems){
-    for (let j = 0; j < listitems.length; j++) {
-        listitems[j].remove();
+    if (listitems) {
+        for (let j = 0; j < listitems.length; j++) {
+            listitems[j].remove();
+        }
     }
 }
-}
-function renderList(){
+//renders the list of highscores 
+function renderList() {
     const stored = JSON.parse(localStorage.getItem("scores"));
-    if(stored == null){
+    if (stored == null) {
         return;
     }
+    persons = stored;
     const list = document.querySelector('ul');
+    //sorting by highscore
+    stored.sort(function (a, b) {
+        return b.score - a.score;
+    });
     for (let i = 0; i < stored.length; i++) {
         const listItem = document.createElement('li');
         listItem.textContent = stored[i].name + " - " + stored[i].score;
@@ -236,5 +289,5 @@ function renderList(){
     }
 
 }
-highscores.addEventListener('click',showHighScores);
+highscores.addEventListener('click', showHighScores);
 startButton.addEventListener('click', startQuiz);
