@@ -1,9 +1,21 @@
+*{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body{
+   background-image: url(../images/background.png);
+   background-size:cover;
+   background-repeat: no-repeat;
+   height:100vh;
+   
+
+}
 .headerflex{
     display: flex;
     justify-content: space-between;
 }
 .headerblock{
-    display:block;
+    display:default;
 }
 
 .startEnd {
@@ -22,45 +34,44 @@ p {
 
 button {
     display: block;
-    /* text-align: center; */
     padding: 10px;
     margin: 20px auto;
     width: 200px;
     border: 5px solid black;
     box-shadow: 10px 10px 5px gray;
     font-weight: bold;
-    font-size:20px
+    font-size:20px;
+    background-color: white;
 }
 
 .hidden {
     display: none;
 }
+
 .questionsDiv{
     display:flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-top:10px;
 }
 
 /*The questions  */
 h2{
-    font-size: 40px;
+    font-size: 45px;
     text-align: center;
-}
-#allDone {
-
 }
 /* the popup answer */
 h4{
-
+    color:white;
+    font-style: italic;
+    border-top: 2px solid white;
 }
 .highScoresDiv{
     display:block;
     text-align: center;
 }
-.visible{
-    display:block;
-}
+
 .endQ{
     display: block;
    text-align: center;
@@ -73,16 +84,45 @@ h4{
     height:30px;
 }
 #timer{
+    
     font-weight: bold;
     border-radius: 20px;
-    border:2px solid Black;
+    border:4px solid Black;
     padding:20px;
-    float:right;
+    text-align: center;
+    
 }
 #highscores{
-    font-weight: bold;
+        font-style: italic;
+        font-weight: bold;
         border-radius: 20px;
-        border: 2px solid Black;
+        border: 4px solid Black;
         padding: 20px;
         
+}
+h1{
+    font-size:40px;
+    
+}
+button:hover{
+    box-shadow: inset 5px 5px 30px black,
+    5px 5px 20px black;
+
+}
+#highscores:hover{
+    box-shadow: inset 5px 5px 30px black,
+            5px 5px 20px black;
+}
+.olDiv{ 
+    text-align: center;
+    margin-top:10px;
+    margin-bottom: 30px;
+
+}
+ol{
+
+    display: inline-block;
+}
+li{
+    font-size: 30px;
 }

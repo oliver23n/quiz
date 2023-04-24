@@ -28,52 +28,52 @@ let current = 0;
 let persons = [];
 const questions = [
     {
-        q: "What is the Capital of Italy?",
+        q: "What is the Capital of ITALY?",
         ans: ['Milano', 'Rome', 'Venice','Florence'],
         tru: 'Rome'
     },
     {
-        q: "What is the Capital of France",
+        q: "What is the Capital of FRANCE",
         ans: ['Paris', 'Nice', 'Lyon','Bordeux'],
         tru: 'Paris'
     },
     {
-        q: "What is the Capital of Spain",
+        q: "What is the Capital of SPAIN",
         ans: ['Barcelona', 'Valenica', 'Bilbao','Madrid'],
         tru: 'Madrid'
     },
     {
-        q: "What is the Capital of the United States",
+        q: "What is the Capital of the UNITED STATES",
         ans: ['New York', 'Los Angeles', 'Washington D.C.', 'Miami'],
         tru: 'Washington D.C.'
     }, 
     {
-        q: "What is the Capital of Mexico",
+        q: "What is the Capital of MEXICO",
         ans: ['Mexico City', 'Oaxaca', 'Puebla', 'Tijuana'],
         tru: 'Mexico City'
     },
     {
-        q: "What is the Capital of Norway",
+        q: "What is the Capital of NORWAY",
         ans: ['Oslo', 'Stockholm', 'Bergen', 'Copenhagen'],
         tru: 'Oslo'
     },
     {
-        q: "What is the Capital of China",
+        q: "What is the Capital of CHINA",
         ans: ['Tokkyo', 'Hong Kong', 'Beijing', 'Shangai'],
         tru: 'Beijing'
     },
     {
-        q: "What is the Capital of Germany",
+        q: "What is the Capital of GERMANY",
         ans: ['Munich', 'Luxembourg', 'Berlin', 'Frankfurt'],
         tru: 'Berlin'
     },
     {
-        q: "What is the Capital of Canada",
+        q: "What is the Capital of CANADA",
         ans: ['Toronto', 'Montreal', 'Otawa', 'Edmonton'],
         tru: 'Madrid'
     },
     {
-        q: "What is the Capital of Switzerland",
+        q: "What is the Capital of SWITZERLAND",
         ans: ['Zurich', 'Bern', 'Geneva', 'Basel'],
         tru: 'Bern'
     }
@@ -266,7 +266,7 @@ function removeAll() {
 }
 //clears the list of highscores
 function clearList() {
-    const listitems = document.querySelectorAll('ol');
+    const listitems = document.querySelectorAll('li');
     if (listitems) {
         for (let j = 0; j < listitems.length; j++) {
             listitems[j].remove();
@@ -280,13 +280,13 @@ function renderList() {
         return;
     }
     persons = stored;
-    const list = document.querySelector('ul');
+    const list = document.querySelector('ol');
     //sorting by highscore
     stored.sort(function (a, b) {
         return b.score - a.score;
     });
     for (let i = 0; i < stored.length; i++) {
-        const listItem = document.createElement('ol');
+        const listItem = document.createElement('li');
         listItem.textContent = stored[i].name + " - " + stored[i].score;
         list.append(listItem);
     }
