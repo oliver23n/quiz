@@ -1,18 +1,4 @@
-// AS A coding boot camp student
-// I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
-// SO THAT I can gauge my progress compared to my peers
-// Acceptance Criteria
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and my score
+
 const header = document.querySelector('#header');
 const startButton = document.getElementById("start");
 const startEnd = document.querySelector(".startEnd");
@@ -33,47 +19,47 @@ const questions = [
         tru: 'Rome'
     },
     {
-        q: "What is the Capital of FRANCE",
+        q: "What is the Capital of FRANCE?",
         ans: ['Paris', 'Nice', 'Lyon','Bordeux'],
         tru: 'Paris'
     },
     {
-        q: "What is the Capital of SPAIN",
+        q: "What is the Capital of SPAIN?",
         ans: ['Barcelona', 'Valenica', 'Bilbao','Madrid'],
         tru: 'Madrid'
     },
     {
-        q: "What is the Capital of the UNITED STATES",
+        q: "What is the Capital of the UNITED STATES?",
         ans: ['New York', 'Los Angeles', 'Washington D.C.', 'Miami'],
         tru: 'Washington D.C.'
     }, 
     {
-        q: "What is the Capital of MEXICO",
+        q: "What is the Capital of MEXICO?",
         ans: ['Mexico City', 'Oaxaca', 'Puebla', 'Tijuana'],
         tru: 'Mexico City'
     },
     {
-        q: "What is the Capital of NORWAY",
+        q: "What is the Capital of NORWAY?",
         ans: ['Oslo', 'Stockholm', 'Bergen', 'Copenhagen'],
         tru: 'Oslo'
     },
     {
-        q: "What is the Capital of CHINA",
+        q: "What is the Capital of CHINA?",
         ans: ['Tokkyo', 'Hong Kong', 'Beijing', 'Shangai'],
         tru: 'Beijing'
     },
     {
-        q: "What is the Capital of GERMANY",
+        q: "What is the Capital of GERMANY?",
         ans: ['Munich', 'Luxembourg', 'Berlin', 'Frankfurt'],
         tru: 'Berlin'
     },
     {
-        q: "What is the Capital of CANADA",
+        q: "What is the Capital of CANADA?",
         ans: ['Toronto', 'Montreal', 'Otawa', 'Edmonton'],
         tru: 'Madrid'
     },
     {
-        q: "What is the Capital of SWITZERLAND",
+        q: "What is the Capital of SWITZERLAND?",
         ans: ['Zurich', 'Bern', 'Geneva', 'Basel'],
         tru: 'Bern'
     }
@@ -117,6 +103,7 @@ function displayTimer(num) {
 }
 //creates the question and the answer buttons
 function createQelements() {
+    //make the questionsDiv visible
     questionsDiv.setAttribute('class', 'questionsDiv');
     const quesitonElement = document.createElement('h2');
 
@@ -147,10 +134,11 @@ function fillQuestion(currentQuestion) {
 
     }
 }
-//after the answer is selecter checks if its correct or wrong
+//after the answer is selected checks if its correct or wrong
 function checkQuestion(e) {
     const answered = e.target.value;
     let isTrue = false;
+    //if its correct show a popup and go to next question
     if (answered == questions[current].tru) {
         isTrue = true;
         showAnswer(isTrue);
@@ -158,6 +146,7 @@ function checkQuestion(e) {
         if (current < questions.length) {
             fillQuestion(current);
         }
+    //if its wrong deduct 10s show popup and go to next question
     } else {
         showAnswer(isTrue);
         current++;
@@ -167,7 +156,7 @@ function checkQuestion(e) {
         }
     }
 }
-//displays the answer (correct/wrong)
+//displays the answer (correct/wrong)(popup)
 function showAnswer(answer) {
     second = 1;
     const answerD = document.createElement('h4');
@@ -187,7 +176,7 @@ function showAnswer(answer) {
         , 500);
 
 }
-//what happens when the quiz ends.
+//End the quiz, show the score and an input area for the name
 function endQuiz() {
     end.setAttribute('class', 'endQ');
     timer.setAttribute('class', 'hidden');
@@ -206,6 +195,10 @@ function endQuiz() {
 //storing the results in local storage
 function storeResult() {
     const enteredName = document.querySelector('#entername');
+    if(enteredName.value ===''){
+        alert('Name cannot be blank');
+        return;
+    }
     const person = {
         name: enteredName.value.trim(),
         score: time,
@@ -241,7 +234,7 @@ function showHighScores() {
     const backButton = document.getElementById('backB');
     backButton.addEventListener('click', backToMain);
 }
-//back button to main display 
+//back button to main display resets quiz 
 function backToMain() {
     header.setAttribute('class','headerflex');
     highScoresDiv.setAttribute('class', 'hidden');
@@ -292,5 +285,6 @@ function renderList() {
     }
 
 }
+
 highscores.addEventListener('click', showHighScores);
 startButton.addEventListener('click', startQuiz);
