@@ -55,8 +55,8 @@ const questions = [
     },
     {
         q: "What is the Capital of CANADA?",
-        ans: ['Toronto', 'Montreal', 'Otawa', 'Edmonton'],
-        tru: 'Madrid'
+        ans: ['Toronto', 'Montreal', 'Ottawa', 'Edmonton'],
+        tru: 'Ottawa'
     },
     {
         q: "What is the Capital of SWITZERLAND?",
